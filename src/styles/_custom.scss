@@ -1,0 +1,89 @@
+Here you can add other styles .card-header:first-child {
+    background-color: #5856d6;
+    color: white;
+}
+
+.sidebar {
+    background-color: #ffffff;
+}
+
+.sidebar-nav .nav-title {
+    color: #323a49;
+}
+
+.sidebar-nav .nav-link {
+    color: #323a49;
+    --cui-sidebar-nav-link-hover-color: #ffffff;
+    --cui-sidebar-nav-link-hover-bg: #ffaa00;
+
+}
+
+.sidebar-nav .nav-icon {
+    color: #323a49;
+
+}
+
+.border-end {
+    border-right: var(--cui-border-width) var(--cui-border-style) #34373d50 !important;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #34373d50;
+}
+
+.sidebar-nav .nav-link.active {
+    background-color: #ffaa00;
+}
+
+// // .sidebar-nav .nav-link.active .nav-icon {}
+
+// // .sidebar-footer {}
+
+.sidebar-toggler {
+    --cui-sidebar-toggler-color: #323a49;
+    --cui-sidebar-toggler-hover-color: #0059ff;
+    --cui-sidebar-toggler-focus-color: #323a49;
+}
+
+// .header > .container-fluid + .container-fluid, .header > .container-sm + .container-fluid, .header > .container-md + .container-fluid, .header > .container-lg + .container-fluid, .header > .container-xl + .container-fluid, .header > .container-xxl + .container-fluid, .header > .container-fluid + .container-sm, .header > .container-sm + .container-sm, .header > .container-md + .container-sm, .header > .container-lg + .container-sm, .header > .container-xl + .container-sm, .header > .container-xxl + .container-sm, .header > .container-fluid + .container-md, .header > .container-sm + .container-md, .header > .container-md + .container-md, .header > .container-lg + .container-md, .header > .container-xl + .container-md, .header > .container-xxl + .container-md, .header > .container-fluid + .container-lg, .header > .container-sm + .container-lg, .header > .container-md + .container-lg, .header > .container-lg + .container-lg, .header > .container-xl + .container-lg, .header > .container-xxl + .container-lg, .header > .container-fluid + .container-xl, .header > .container-sm + .container-xl, .header > .container-md + .container-xl, .header > .container-lg + .container-xl, .header > .container-xl + .container-xl, .header > .container-xxl + .container-xl, .header > .container-fluid + .container-xxl, .header > .container-sm + .container-xxl, .header > .container-md + .container-xxl, .header > .container-lg + .container-xxl, .header > .container-xl + .container-xxl, .header > .container-xxl + .container-xxl {
+//     background-color: #ffaa00;
+// }
+
+// .breadcrumb-item.active {
+//     color: white;
+// }
+
+// a {
+//     color: rgb(74 74 74);
+//     text-decoration: none;
+// }
+
+.header-toggler:not(:disabled) {
+    background-color: #ffaa00;
+
+}
+
+
+.nav-tabs .nav-link {
+    color: #ffaa00;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: #ffffff;
+    background-color: #ffaa00;
+}
+
+.modern-button {
+    background-color: #ffaa00;
+    --cui-btn-border-color: #ffaa00;
+}
+
+.modern-button:hover {
+    background-color: #d38d00;
+    --cui-btn-border-color: #d38d00;
+}
+
+.card-header {
+    background-color: #ffaa00;
+    color: white;
+}
