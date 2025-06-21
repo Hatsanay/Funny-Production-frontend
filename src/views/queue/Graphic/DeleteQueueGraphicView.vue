@@ -1,5 +1,5 @@
 <script setup>
-import DeleteQueueGraphicComponents from "../../components/queueComponents/DeleteQueueGraphicComponents.vue";
+import DeleteQueueGraphicComponents from "../../../components/queueComponents/GraphicComponents/DeleteQueueGraphicComponents.vue";
 </script>
 
 <template>

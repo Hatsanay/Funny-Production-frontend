@@ -1,5 +1,5 @@
 <script setup>
-import CreateQueueGraphicComponents from "../../components/queueComponents/CreateQueueGraphicComponents.vue";
+import CreateQueueGraphicComponents from "../../../components/queueComponents/GraphicComponents/CreateQueueGraphicComponents.vue";
 </script>
 
 <template>

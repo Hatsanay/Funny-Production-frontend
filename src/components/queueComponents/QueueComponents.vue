@@ -120,7 +120,8 @@
                         กำลังดำเนินงาน
                       </td>
                       <td v-if="queue.progress_status === 'completed'">เสร็จสิ้น</td>
-                      <td>ประมาณ {{ queue.period || 0 }} วัน</td>
+                      <td v-if="queue.period === 0" class="text-danger">สิ้นสุดการส่งงาน(กรุณาเพิ่มระยะเวลา)</td>
+                      <td v-else>ประมาณ {{ queue.period || 0 }} วัน</td>
                       <td>
                         <CButton
                           color="warning"
@@ -298,10 +299,157 @@
         class="tab-pane fade"
         :class="{ 'show active': activeTab === '3' }"
       >
-        <div class="card mb-4">
-          <div class="card-header">คิวงาน Animation</div>
-          <div class="card-body">
-            <p>เนื้อหาคิวงาน Animation จะแสดงที่นี่</p>
+      <CRow style="margin-bottom: 10px">
+          <CCol :md="6"></CCol>
+          <CCol :md="1">
+            <CButton
+            style="margin-bottom: 10px"
+              class="btn btn-danger text-light"
+              block
+              @click="showModalHistoryAnimation()"
+            >
+            <i class="fa-regular fa-clock">ประวัติ</i>
+            
+            </CButton>
+          </CCol>
+          <CCol :md="3" style="margin-bottom: 10px">
+            <CInputGroup>
+              <CFormInput
+                placeholder="ค้นหา..."
+                v-model="searchQuery"
+                @input="fetchQueue"
+              />
+              <CInputGroupText>
+                <CIcon name="cil-magnifying-glass" />
+              </CInputGroupText>
+            </CInputGroup>
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              color="primary"
+              class="w-100 modern-button"
+              block
+              style="margin-bottom: 10px"
+              @click="showModalCreateAnimation()"
+            >
+              <i class="fa-solid fa-plus"></i>
+              สร้างคิว
+            </CButton>
+          </CCol>
+        </CRow>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-4">
+              <div class="card-header">ตารางคิวงาน Animation</div>
+              <div class="card-body table-responsive p-0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>ลำดับคิว</th>
+                      <th>รายละเอียดงาน</th>
+                      <th>ID Discord</th>
+                      <th>ชื่อ Discord</th>
+                      <th>สถานะ</th>
+                      <th>ระยะเวลา (วัน)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(queue, index) in license" :key="index">
+                      <td>
+                        <span v-if="queue.period === 0" class="text-danger">
+                          <i class="fa-solid fa-triangle-exclamation"></i>
+                          {{ getQueueNumber(index) }}
+                        </span>
+                        <span v-else-if="queue.period === 1" class="text-warning">
+                          <i class="fa-solid fa-triangle-exclamation"></i>
+                          {{ getQueueNumber(index) }}
+                        </span>
+                        <span v-else>
+                          &nbsp;&nbsp;&nbsp;{{ getQueueNumber(index) }}
+                        </span>
+                      </td>
+                      <td>{{ queue.per_name || "N/A" }}</td>
+                      <td>{{ queue.client_id || "N/A" }}</td>
+                      <td>{{ queue.discordName || "N/A" }}</td>
+                      <td v-if="queue.progress_status === 'waiting'">รอคิว</td>
+                      <td v-if="queue.progress_status === 'in_progress'">
+                        กำลังดำเนินงาน
+                      </td>
+                      <td v-if="queue.progress_status === 'completed'">เสร็จสิ้น</td>
+                      <td v-if="queue.period === 0" class="text-danger">สิ้นสุดการส่งงาน(กรุณาเพิ่มระยะเวลา)</td>
+                      <td v-else>ประมาณ {{ queue.period || 0 }} วัน</td>
+                      <td>
+                        <CButton
+                          color="warning"
+                          size="sm"
+                          @click="showModalEditAnimation(queue._id)"
+                        >
+                          <i class="fa-solid fa-pen-to-square"></i> แก้ไขคิว
+                        </CButton>
+                      </td>
+                      <td>
+                        <CButton
+                          color="success"
+                          size="sm"
+                          class="text-white"
+                          @click="showModalDeleteAnimation(queue._id)"
+                        >
+                          <i class="fa-solid fa-circle-check"></i> เสร็จสิ้น
+                        </CButton>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="d-flex align-items-center">
+                      <span>Show</span>
+                      <select
+                        v-model="rowsPerPage"
+                        class="form-select mx-2"
+                        style="width: auto"
+                        @change="fetchQueue"
+                      >
+                        <option :value="5">5</option>
+                        <option :value="10">10</option>
+                        <option :value="20">20</option>
+                        <option :value="50">50</option>
+                        <option :value="100">100</option>
+                      </select>
+                      <span>entries</span>
+                    </div>
+                  </div>
+                  <div class="col-md-8 d-flex justify-content-end">
+                    <CButton
+                      color="secondary"
+                      :disabled="currentPage === 1"
+                      @click="currentPage--"
+                    >
+                      Previous
+                    </CButton>
+                    <CButton
+                      v-for="page in totalPages"
+                      :key="page"
+                      @click="setPage(page)"
+                      :color="page === currentPage ? 'primary' : 'secondary'"
+                      class="mx-1"
+                    >
+                      {{ page }}
+                    </CButton>
+                    <CButton
+                      color="secondary"
+                      :disabled="currentPage === totalPages"
+                      @click="currentPage++"
+                    >
+                      Next
+                    </CButton>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -382,6 +530,83 @@
         />
       </CModalBody>
     </CModal>
+
+
+    <CModal
+      alignment="center"
+      :visible="visibleCreateAnimationModal"
+      @close="closeCreateAnimationModal"
+      aria-labelledby="VerticallyCenteredExample"
+      size="lg"
+    >
+      <CModalHeader>
+        <CModalTitle id="VerticallyCenteredExample">สร้างคิวงาน Animation</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <CreateQueueAnimationComponents
+          :userId="userId.value"
+          @closeModal="closeCreateAnimationModal"
+          @queueCreated="fetchQueue"
+        />
+      </CModalBody>
+    </CModal>
+
+    <CModal
+      alignment="center"
+      :visible="visibleEditAnimationModal"
+      @close="closeEditAnimationModal"
+      aria-labelledby="VerticallyCenteredExampleEdit"
+      size="lg"
+    >
+      <CModalHeader>
+        <CModalTitle id="VerticallyCenteredExampleEdit">แก้ไขคิวงาน Animation</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <EditQueueAnimationComponents
+          :userId="userId.value"
+          :queueId="selectedQueueId"
+          @closeModal="closeEditAnimationModal"
+          @queueUpdated="fetchQueue"
+        />
+      </CModalBody>
+    </CModal>
+
+    <CModal
+      alignment="center"
+      :visible="visibleDeleteAnimationModal"
+      @close="closeDeleteAnimationModal"
+      aria-labelledby="VerticallyCenteredExampleDelete"
+      size="lg"
+    >
+      <CModalHeader>
+        <CModalTitle id="VerticallyCenteredExampleDelete">ปิดคิวงาน Animation</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <DeleteQueueAnimationComponents
+          :userId="userId.value"
+          :queueId="selectedQueueId"
+          @closeModal="closeDeleteAnimationModal"
+          @queueUpdated="fetchQueue"
+        />
+      </CModalBody>
+    </CModal>
+
+    <CModal
+      alignment="center"
+      :visible="visibleHistoryAnimationModal"
+      @close="closeHistoryAnimationModal"
+      aria-labelledby="VerticallyCenteredExampleHistory"
+      size="lg"
+    >
+      <CModalHeader>
+        <CModalTitle id="VerticallyCenteredExampleHistory">ประวัติคิว Animation</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <HistoryQueueAnimationComponents
+          @closeModal="closeHistoryAnimationModal"
+        />
+      </CModalBody>
+    </CModal>
   </div>
 </template>
 
@@ -389,11 +614,15 @@
 import axios from "axios";
 import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import CreateQueueGraphicComponents from "./CreateQueueGraphicComponents.vue";
-import DeleteQueueGraphicComponents from "./DeleteQueueGraphicComponents.vue";
-import EditQueueGraphicComponents from "./EditQueueGraphicComponents.vue";
-import HistoryQueueGraphicComponents from "./HistoryQueueGraphicComponents.vue";
+import CreateQueueGraphicComponents from "./GraphicComponents/CreateQueueGraphicComponents.vue";
+import DeleteQueueGraphicComponents from "./GraphicComponents/DeleteQueueGraphicComponents.vue";
+import EditQueueGraphicComponents from "./GraphicComponents/EditQueueGraphicComponents.vue";
+import HistoryQueueGraphicComponents from "./GraphicComponents/HistoryQueueGraphicComponents.vue";
 
+import CreateQueueAnimationComponents from "./AnimationComponents/CreateQueueAnimationComponents.vue";
+import DeleteQueueAnimationComponents from "./AnimationComponents/DeleteQueueAnimationComponents.vue";
+import EditQueueAnimationComponents from "./AnimationComponents/EditQueueAnimationComponents.vue";
+import HistoryQueueAnimationComponents from "./AnimationComponents/HistoryQueueAnimationComponents.vue";
 export default {
   name: "QueueComponents",
   components: {
@@ -401,6 +630,11 @@ export default {
     EditQueueGraphicComponents,
     DeleteQueueGraphicComponents,
     HistoryQueueGraphicComponents,
+
+    CreateQueueAnimationComponents,
+    EditQueueAnimationComponents,
+    DeleteQueueAnimationComponents,
+    HistoryQueueAnimationComponents,
   },
   setup() {
     const activeTab = ref("1");
@@ -419,6 +653,11 @@ export default {
     const route = useRoute();
     const userId = ref(localStorage.getItem("userID"));
     const token = ref(localStorage.getItem("token"));
+    
+    const visibleCreateAnimationModal = ref(false);
+    const visibleEditAnimationModal = ref(false);
+    const visibleDeleteAnimationModal = ref(false);
+    const visibleHistoryAnimationModal = ref(false);
 
     const setActiveTab = (tab) => {
       activeTab.value = tab;
@@ -459,8 +698,6 @@ export default {
       selectedQueueId.value = null;
       visibleDeleteGraphicModal.value = false;
     };
-
-
     
     const showModalHistoryGraphic = () => {
       visibleHistoryGraphicModal.value = true;
@@ -468,6 +705,43 @@ export default {
 
     const closeHistoryGraphicModal = () => {
       visibleHistoryGraphicModal.value = false;
+    };
+
+
+    const showModalCreateAnimation = () => {
+      visibleCreateAnimationModal.value = true;
+    };
+
+    const closeCreateAnimationModal = () => {
+      visibleCreateAnimationModal.value = false;
+    };
+
+    const showModalEditAnimation = (queueId) => {
+      selectedQueueId.value = queueId;
+      visibleEditAnimationModal.value = true;
+    };
+
+    const closeEditAnimationModal = () => {
+      selectedQueueId.value = null;
+      visibleEditAnimationModal.value = false;
+    };
+
+    const showModalDeleteAnimation = (queueId) => {
+      selectedQueueId.value = queueId;
+      visibleDeleteAnimationModal.value = true;
+    };
+
+    const closeDeleteAnimationModal = () => {
+      selectedQueueId.value = null;
+      visibleDeleteAnimationModal.value = false;
+    };
+    
+    const showModalHistoryAnimation = () => {
+      visibleHistoryAnimationModal.value = true;
+    };
+
+    const closeHistoryAnimationModal = () => {
+      visibleHistoryAnimationModal.value = false;
     };
 
 
@@ -575,6 +849,10 @@ export default {
       visibleEditGraphicModal,
       visibleDeleteGraphicModal,
       visibleHistoryGraphicModal,
+      visibleCreateAnimationModal,
+      visibleEditAnimationModal,
+      visibleDeleteAnimationModal,
+      visibleHistoryAnimationModal,
       showModalCreateGraphic,
       closeCreateGraphicModal,
       showModalEditGraphic,
@@ -583,6 +861,14 @@ export default {
       closeDeleteGraphicModal,
       showModalHistoryGraphic,
       closeHistoryGraphicModal,
+      showModalCreateAnimation,
+      closeCreateAnimationModal,
+      showModalEditAnimation,
+      closeEditAnimationModal,
+      showModalDeleteAnimation,
+      closeDeleteAnimationModal,
+      showModalHistoryAnimation,
+      closeHistoryAnimationModal,
       getQueueNumber,
       formatDate,
       selectedQueueId,

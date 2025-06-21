@@ -1,5 +1,5 @@
 <script setup>
-import HistoryQueueGraphicComponents from "../../components/queueComponents/HistoryQueueGraphicComponents.vue";
+import HistoryQueueGraphicComponents from "../../../components/queueComponents/GraphicComponents/HistoryQueueGraphicComponents.vue";
 </script>
 
 <template>

@@ -5,10 +5,15 @@ import userDasboard from '../views/dashboard/Dashboard.vue';
 
 
 
-import CreateQueueGraphicView from '../views/queue/CreateQueueGraphicView.vue';
-import DeleteQueueGraphicView from '../views/queue/DeleteQueueGraphicView.vue';
-import EditQueueGraphicView from '../views/queue/EditQueueGraphicView.vue';
-import HistoryQueueGraphicView from '../views/queue/HistoryQueueGraphicView.vue';
+import CreateQueueGraphicView from '../views/queue/Graphic/CreateQueueGraphicView.vue';
+import DeleteQueueGraphicView from '../views/queue/Graphic/DeleteQueueGraphicView.vue';
+import EditQueueGraphicView from '../views/queue/Graphic/EditQueueGraphicView.vue';
+import HistoryQueueGraphicView from '../views/queue/Graphic/HistoryQueueGraphicView.vue';
+
+import CreateQueueAnimationView from '../views/queue/Animation/CreateQueueAnimationView.vue';
+import DeleteQueueAnimationView from '../views/queue/Animation/DeleteQueueAnimationView.vue';
+import EditQueueAnimationView from '../views/queue/Animation/EditQueueAnimationView.vue';
+import HistoryQueueAnimationView from '../views/queue/Animation/HistoryQueueAnimationView.vue';
 import queueView from '../views/queue/queueView.vue';
 import { clearToken, hasPermission, isAuthenticated } from './auth';
 
@@ -62,6 +67,33 @@ const routes = [
         name: 'HistoryQueueGraphic',
         meta: { permission: 'HistoryQueueGraphic', requiresAuth: true },
         component: HistoryQueueGraphicView,
+      },
+
+      {
+        path: '/CreateQueueAnimation',
+        name: 'CreateQueueAnimation',
+        meta: { permission: 'CreateQueueAnimation', requiresAuth: true },
+        component: CreateQueueAnimationView,
+      },
+
+      {
+        path: '/EditQueueAnimation',
+        name: 'EditQueueAnimation',
+        meta: { permission: 'EditQueueAnimation', requiresAuth: true },
+        component: EditQueueAnimationView,
+      },
+      {
+        path: '/DeleteQueueAnimation',
+        name: 'DeleteQueueAnimation',
+        meta: { permission: 'DeleteQueueAnimation', requiresAuth: true },
+        component: DeleteQueueAnimationView,
+      },
+
+      {
+        path: '/HistoryQueueAnimation',
+        name: 'HistoryQueueAnimation',
+        meta: { permission: 'HistoryQueueAnimation', requiresAuth: true },
+        component: HistoryQueueAnimationView,
       },
     ],
   },

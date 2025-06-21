@@ -9,7 +9,7 @@
           id="affectOthersYes"
           v-model="affectOthers"
           value="yes"
-          label="มีผลต่อคิวอื่น (ลดวันคิวถัดไป)"
+          label="มีผลต่อคิวอื่น (ลดระยะเวลาของคิวอื่น ต่ำสุดเหลือ 1 วัน)"
           required
         />
         <CFormCheck
@@ -26,7 +26,7 @@
     <CCol md="12" class="d-flex justify-content-end mt-4">
       <CButton color="secondary" @click="closeModal" class="me-3">ยกเลิก</CButton>
       <CButton type="submit" class="modern-button" :disabled="isLoading">
-        {{ isLoading ? "กำลังดำเนินการ..." : "ยืนยันเปลี่ยนสถานะ" }}
+        {{ isLoading ? "กำลังดำเนินการ..." : "ยืนยันการเสร็จสิ้นคิว" }}
       </CButton>
     </CCol>
 
