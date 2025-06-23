@@ -52,11 +52,11 @@
     </CCol>
 
     <CCol md="12">
-      <CFormLabel for="period"
-        >ระยะเวลา (วัน)
-        <span class="ms-2 text-muted"
-          >คิวล่าสุด: <strong>{{ latestQueuePeriod }} วัน</strong></span
-        >
+      <CFormLabel for="period">
+        ระยะเวลา (วัน)
+        <span class="ms-2 text-muted">
+          คิวล่าสุด: <strong>{{ latestQueuePeriod }} วัน</strong>
+        </span>
       </CFormLabel>
       <div class="d-flex align-items-center">
         <CButton
@@ -143,7 +143,7 @@ import Swal from "sweetalert2";
 import { computed, onMounted, ref, watch } from "vue";
 
 export default {
-  name: "EditQueueGraphicComponents",
+  name: "EditQueueAnimationComponents",
   props: {
     userId: { type: String, required: true },
     queueId: { type: String, required: true },
@@ -189,22 +189,28 @@ export default {
     const loadQueueData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`/api/auth/getQueueGraphic/${props.queueId}`, {
+        if (!token) {
+          addToast("ข้อผิดพลาด", "กรุณาเข้าสู่ระบบก่อนแก้ไข");
+          return;
+        }
+        const response = await axios.get(`/api/auth/getQueueAnimation/${props.queueId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.data.success) {
           const queue = response.data.data;
           form.value = {
-            clientId: queue.client_id,
-            perName: queue.per_name,
-            progressStatus: queue.progress_status,
+            clientId: queue.client_id || "",
+            perName: queue.per_name || "",
+            progressStatus: queue.progress_status || "",
           };
           period.value = queue.period || 0;
-          originalPeriod.value = queue.period || 0; 
+          originalPeriod.value = queue.period || 0;
+        } else {
+          addToast("ข้อผิดพลาด", response.data.error || "ไม่สามารถโหลดข้อมูลคิวได้");
         }
       } catch (error) {
-        addToast("ข้อผิดพลาด", "ไม่สามารถโหลดข้อมูลคิวได้");
-        console.error("Error loading queue data:", error);
+        addToast("ข้อผิดพลาด", error.response?.data?.error || "ไม่สามารถโหลดข้อมูลคิวได้");
+        console.error("Error loading queue data:", error.response?.data || error);
       }
     };
 
@@ -259,8 +265,13 @@ export default {
 
     const loadClientOptions = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          addToast("ข้อผิดพลาด", "กรุณาเข้าสู่ระบบก่อนดึงข้อมูล");
+          return;
+        }
         const response = await axios.get("/api/auth/client-discord", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response.data.success) {
           clientOptions.value = response.data.data.map((client) => ({
@@ -268,9 +279,12 @@ export default {
             discordName: client.discordName,
             displayText: `${client.clientID} (${client.discordName})`,
           }));
+        } else {
+          addToast("ข้อผิดพลาด", response.data.error || "ไม่สามารถโหลดข้อมูล Client ได้");
         }
       } catch (error) {
-        addToast("ข้อผิดพลาด", "ไม่สามารถโหลดข้อมูล Client ได้");
+        addToast("ข้อผิดพลาด", error.response?.data?.error || "ไม่สามารถโหลดข้อมูล Client ได้");
+        console.error("Error loading client options:", error.response?.data || error);
       }
     };
 
@@ -281,19 +295,21 @@ export default {
           addToast("ข้อผิดพลาด", "กรุณาเข้าสู่ระบบก่อนดึงข้อมูล");
           return;
         }
-        const response = await axios.get("/api/auth/getPeriodLastQueue", {
+        const response = await axios.get("/api/auth/getAnimationPeriodLastQueue", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
         if (response.data.success) {
-          latestQueuePeriod.value = response.data.data.period;
+          latestQueuePeriod.value = response.data.data.period || 0;
           period.value = Math.max(0, period.value);
+        } else {
+          addToast("ข้อผิดพลาด", response.data.error || "ไม่สามารถดึงระยะเวลาคิวล่าสุดได้");
         }
       } catch (error) {
-        addToast("ข้อผิดพลาด", "ไม่สามารถดึงระยะเวลาคิวล่าสุดได้");
-        console.error("Error fetching latest queue period:", error);
+        addToast("ข้อผิดพลาด", error.response?.data?.error || "ไม่สามารถดึงระยะเวลาคิวล่าสุดได้");
+        console.error("Error fetching latest queue period:", error.response?.data || error);
       }
     };
 
@@ -320,7 +336,7 @@ export default {
         const discordName = selectedClient ? selectedClient.discordName : "";
 
         const response = await axios.put(
-          `/api/auth/updateQueueGraphic/${props.queueId}`,
+          `/api/auth/updateQueueAnimation/${props.queueId}`,
           {
             user_id: userId.value,
             client_id: form.value.clientId,
@@ -328,6 +344,8 @@ export default {
             per_name: form.value.perName,
             progress_status: form.value.progressStatus,
             period: period.value,
+            affectOthers: affectOthers.value,
+            originalPeriod: originalPeriod.value,
           },
           {
             headers: {
@@ -338,34 +356,9 @@ export default {
         );
 
         if (response.status === 200) {
-          if (affectOthers.value === "yes") {
-            const periodDifference = period.value - originalPeriod.value;
-            const nextQueuesResponse = await axios.get(
-              `/api/auth/getNextQueues/${props.queueId}`,
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
-            if (nextQueuesResponse.data.success) {
-              const nextQueues = nextQueuesResponse.data.data;
-              if (nextQueues.length > 0) {
-                for (const queue of nextQueues) {
-                  if (queue && queue._id) { 
-                    await axios.put(
-                      `/api/auth/updateQueueGraphic/${queue._id}`,
-                      {
-                        period: Math.max(0, queue.period + periodDifference),
-                      },
-                      { headers: { Authorization: `Bearer ${token}` } }
-                    ).catch(err => console.error("Error updating next queue:", err));
-                  } else {
-                    console.warn("Invalid queue data:", queue);
-                  }
-                }
-              }
-            }
-          }
           Swal.fire({
             title: "แก้ไขคิวสำเร็จ",
-            text: "แก้ไขคิวงาน Graphic เรียบร้อย!",
+            text: "แก้ไขคิวงาน Animation เรียบร้อย!",
             icon: "success",
           }).then(() => {
             emit("queueUpdated");
@@ -393,8 +386,8 @@ export default {
 
     onMounted(async () => {
       await fetchLatestQueuePeriod();
-      loadClientOptions();
-      await loadQueueData(); // ดึงข้อมูลคิวที่เลือก
+      await loadClientOptions();
+      await loadQueueData();
     });
 
     return {
@@ -423,32 +416,25 @@ export default {
 .is-invalid {
   border-color: #dc3545;
 }
-
 .text-center {
   max-width: 100px;
 }
-
 .text-muted {
   font-size: 0.9em;
 }
-
 .me-2,
 .ms-2 {
   margin: 0 0.5rem;
 }
-
 .mt-3 {
   margin-top: 1rem;
 }
-
 .form-control.is-invalid {
   border-color: #dc3545;
   background-image: none;
 }
-
 .text-muted strong {
   color: #0d6efd;
   font-weight: 600;
 }
-
 </style>

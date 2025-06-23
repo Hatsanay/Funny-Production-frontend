@@ -24,7 +24,7 @@
             <table v-if="license.length" class="table">
               <thead>
                 <tr>
-                  <th>ลำดับคิว</th>
+                  <th>ลำดับ</th>
                   <th>รายละเอียดงาน</th>
                   <th>ID Discord</th>
                   <th>ชื่อ Discord</th>

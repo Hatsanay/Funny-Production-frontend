@@ -142,6 +142,7 @@ export default {
     const userId = ref(localStorage.getItem("userID") || props.userId);
     const clientOptions = ref([]);
     const latestQueuePeriod = ref(props.latestQueuePeriod); 
+    const token = ref(localStorage.getItem("token"));
 
     const errors = computed(() => ({
       clientId:
@@ -336,6 +337,7 @@ export default {
       onClientChange,
       isClientInOrder,
       latestQueuePeriod,
+      token,
     };
   },
 };

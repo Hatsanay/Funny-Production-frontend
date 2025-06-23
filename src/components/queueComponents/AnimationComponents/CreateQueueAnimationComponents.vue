@@ -231,7 +231,7 @@ export default {
           return;
         }
 
-        const response = await axios.get("/api/auth/getPeriodLastQueue", {
+        const response = await axios.get("/api/auth/getAnimationPeriodLastQueue", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -271,7 +271,7 @@ export default {
         const discordName = selectedClient ? selectedClient.discordName : "";
 
         const response = await axios.post(
-          "/api/auth/createQueueGraphic",
+          "/api/auth/createQueueAnimation",
           {
             user_id: userId.value,
             client_id: form.value.clientId,

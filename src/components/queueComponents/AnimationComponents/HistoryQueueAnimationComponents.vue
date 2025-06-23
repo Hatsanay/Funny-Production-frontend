@@ -19,12 +19,12 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card mb-4">
-          <div class="card-header">ตารางประวัติคิวงาน Graphic</div>
+          <div class="card-header">ตารางประวัติคิวงาน Animation</div>
           <div class="card-body table-responsive p-0">
             <table v-if="license.length" class="table">
               <thead>
                 <tr>
-                  <th>ลำดับคิว</th>
+                  <th>ลำดับ</th>
                   <th>รายละเอียดงาน</th>
                   <th>ID Discord</th>
                   <th>ชื่อ Discord</th>
@@ -150,7 +150,7 @@ export default {
         if (!token) {
           throw new Error("กรุณาเข้าสู่ระบบ");
         }
-        const response = await axios.get("/api/auth/HistoryQueueGraphic", {
+        const response = await axios.get("/api/auth/HistoryQueueAnimation", {
           params: {
             limit: rowsPerPage.value,
             offset: offset,
