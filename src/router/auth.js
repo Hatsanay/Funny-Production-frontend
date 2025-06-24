@@ -51,10 +51,10 @@ export const decodeJWTTH = (token) => {
       'DeleteQueueGraphic',       //6
       'HistoryQueueGraphic',      //7
 
-      'CreateQueueUI',            
-      'EditQueueUI',              
-      'DeleteQueueUI',            
-      'HistoryQueueUI',      
+      'CreateQueueUi',            
+      'EditQueueUi',              
+      'DeleteQueueUi',            
+      'HistoryQueueUi',      
 
       'CreateQueueAnimation',     
       'EditQueueAnimation',       

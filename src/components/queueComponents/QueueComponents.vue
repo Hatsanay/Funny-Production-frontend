@@ -281,7 +281,7 @@
                       <td>{{ queue.discordName || "N/A" }}</td>
                       <td>
                         <span v-if="queue.progress_status === 'waiting'">รอคิว</span>
-                        <span v-else-if="queue.progress_status === 'in_progress'">กำลังดำเนินงาน</span>
+                        <span v-else-if="queue.progress_status === 'in_progress'">กำลังดำเนิน</span>
                         <span v-else-if="queue.progress_status === 'completed'">เสร็จสิ้น</span>
                       </td>
                       <td>
@@ -400,7 +400,8 @@
               style="margin-bottom: 10px"
               @click="showModalCreateAnimation()"
             >
-              <i class="fa-solid fa-plus"></i> สร้างคิว
+              <i class="fa-solid fa-plus"></i>
+              สร้างคิว
             </CButton>
           </CCol>
         </CRow>
@@ -761,10 +762,10 @@ import CreateQueueGraphicComponents from "./GraphicComponents/CreateQueueGraphic
 import DeleteQueueGraphicComponents from "./GraphicComponents/DeleteQueueGraphicComponents.vue";
 import EditQueueGraphicComponents from "./GraphicComponents/EditQueueGraphicComponents.vue";
 import HistoryQueueGraphicComponents from "./GraphicComponents/HistoryQueueGraphicComponents.vue";
-// import CreateQueueUIComponents from "./UIComponents/CreateQueueUIComponents.vue";
-// import DeleteQueueUIComponents from "./UIComponents/DeleteQueueUIComponents.vue";
-// import EditQueueUIComponents from "./UIComponents/EditQueueUIComponents.vue";
-// import HistoryQueueUIComponents from "./UIComponents/HistoryQueueUIComponents.vue";
+import CreateQueueUIComponents from "./UiComponents/CreateQueueUIComponents.vue";
+import DeleteQueueUIComponents from "./UiComponents/DeleteQueueUiComponents.vue";
+import EditQueueUIComponents from "./UiComponents/EditQueueUiComponents.vue";
+import HistoryQueueUIComponents from "./UiComponents/HistoryQueueUiComponents.vue";
 
 export default {
   name: "QueueComponents",
@@ -777,13 +778,12 @@ export default {
     EditQueueAnimationComponents,
     DeleteQueueAnimationComponents,
     HistoryQueueAnimationComponents,
-    // CreateQueueUIComponents,
-    // EditQueueUIComponents,
-    // DeleteQueueUIComponents,
-    // HistoryQueueUIComponents,
+    CreateQueueUIComponents,
+    DeleteQueueUIComponents,
+    EditQueueUIComponents,
+    HistoryQueueUIComponents,
   },
   setup() {
-    // โหลด activeTab จาก localStorage หรือใช้ค่าเริ่มต้น '1'
     const activeTab = ref(localStorage.getItem("activeTab") || "1");
     const searchQuery = ref("");
     const searchQueryUI = ref("");

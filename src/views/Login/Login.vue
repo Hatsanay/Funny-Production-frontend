@@ -8,14 +8,10 @@
               <CCardBody>
                 <div class="text-center mb-4">
                   <div>
-                    <!-- <img
-                      :src="require('@/assets/brand/FUNNY_Production_logo03-01.png')"
-                      alt="Logo"
-                      class="sidebar-brand-full"
-                      style="height: 200px"
-                    /> -->
+                    <img src="../../assets/brand/logoProduction.png" width="100px" />
+
                   </div>
-                  <h1 class="display-4">Login</h1>
+                  <h1 class="display-4" style="font-weight: 400">Login</h1>
                   <p class="text-muted">Sign in with Discord (Admin Role Required)</p>
                 </div>
 
@@ -29,7 +25,9 @@
                     >
                       <span v-if="isLoading"> <CSpinner size="sm" /> Loading... </span>
                       <span v-else>
-                        <CIcon icon="cib-discord" /> Login with Discord
+                        <CIcon icon="cib-discord" />
+                        <i class="fa-brands fa-discord"></i>
+                        Login with Discord
                       </span>
                     </CButton>
                   </CCol>

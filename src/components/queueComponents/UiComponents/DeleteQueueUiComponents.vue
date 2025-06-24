@@ -53,7 +53,7 @@ import Swal from "sweetalert2";
 import { onMounted, ref } from "vue";
 
 export default {
-  name: "DeleteQueueGraphicComponents",
+  name: "DeleteQueueUiComponents",
   props: {
     userId: { type: String, required: true },
     queueId: { type: String, required: true },
@@ -73,7 +73,7 @@ export default {
     const loadQueueData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`/api/auth/getQueueAnimation/${props.queueId}`, {
+        const response = await axios.get(`/api/auth/getQueueUI/${props.queueId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.data.success) {
@@ -122,7 +122,7 @@ export default {
 
         if (confirmResult.isConfirmed) {
           const updateResponse = await axios.put(
-            `/api/auth/deleteQueueAnimation/${props.queueId}`,
+            `/api/auth/deleteQueueUI/${props.queueId}`,
             {
               user_id: userId.value,
               client_id: form.value.clientId,

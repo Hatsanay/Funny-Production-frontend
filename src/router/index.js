@@ -10,6 +10,11 @@ import DeleteQueueGraphicView from '../views/queue/Graphic/DeleteQueueGraphicVie
 import EditQueueGraphicView from '../views/queue/Graphic/EditQueueGraphicView.vue';
 import HistoryQueueGraphicView from '../views/queue/Graphic/HistoryQueueGraphicView.vue';
 
+import CreateQueueUiView from '../views/queue/Ui/CreateQueueUiView.vue';
+import DeleteQueueUiView from '../views/queue/Ui/DeleteQueueUiView.vue';
+import EditQueueUiView from '../views/queue/Ui/EditQueueUiView.vue';
+import HistoryQueueUiView from '../views/queue/Ui/HistoryQueueUiView.vue';
+
 import CreateQueueAnimationView from '../views/queue/Animation/CreateQueueAnimationView.vue';
 import DeleteQueueAnimationView from '../views/queue/Animation/DeleteQueueAnimationView.vue';
 import EditQueueAnimationView from '../views/queue/Animation/EditQueueAnimationView.vue';
@@ -67,6 +72,33 @@ const routes = [
         name: 'HistoryQueueGraphic',
         meta: { permission: 'HistoryQueueGraphic', requiresAuth: true },
         component: HistoryQueueGraphicView,
+      },
+
+      {
+        path: '/CreateQueueUi',
+        name: 'CreateQueueUi',
+        meta: { permission: 'CreateQueueUi', requiresAuth: true },
+        component: CreateQueueUiView,
+      },
+
+      {
+        path: '/EditQueueUi',
+        name: 'EditQueueUi',
+        meta: { permission: 'EditQueueUi', requiresAuth: true },
+        component: EditQueueUiView,
+      },
+      {
+        path: '/DeleteQueueUi',
+        name: 'DeleteQueueUi',
+        meta: { permission: 'DeleteQueueUi', requiresAuth: true },
+        component: DeleteQueueUiView,
+      },
+
+      {
+        path: '/HistoryQueueUi',
+        name: 'HistoryQueueUi',
+        meta: { permission: 'HistoryQueueUi', requiresAuth: true },
+        component: HistoryQueueUiView,
       },
 
       {
