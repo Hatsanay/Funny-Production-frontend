@@ -292,7 +292,7 @@ export default {
         if (response.status === 201) {
           Swal.fire({
             title: "สร้างคิวสำเร็จ",
-            text: "สร้างคิวงาน Graphic เรียบร้อย!",
+            text: "สร้างคิวงาน UI เรียบร้อย!",
             icon: "success",
           }).then(() => {
             window.location.reload();

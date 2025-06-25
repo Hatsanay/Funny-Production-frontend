@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card mb-4">
-          <div class="card-header">ตารางประวัติคิวงาน Graphic</div>
+          <div class="card-header">ตารางประวัติคิวงาน UI</div>
           <div class="card-body table-responsive p-0">
             <table v-if="license.length" class="table">
               <thead>

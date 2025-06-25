@@ -53,7 +53,7 @@ import Swal from "sweetalert2";
 import { onMounted, ref } from "vue";
 
 export default {
-  name: "DeleteQueueGraphicComponents",
+  name: "DeleteQueueAnimationComponents",
   props: {
     userId: { type: String, required: true },
     queueId: { type: String, required: true },
@@ -143,7 +143,7 @@ export default {
           if (updateResponse.status === 200) {
             Swal.fire({
               title: "เปลี่ยนสถานะคิวสำเร็จ",
-              text: "คิวงาน Graphic ถูกตั้งเป็นเสร็จสิ้นเรียบร้อย!",
+              text: "คิวงาน Animation ถูกตั้งเป็นเสร็จสิ้นเรียบร้อย!",
               icon: "success",
             }).then(() => {
               emit("queueUpdated");

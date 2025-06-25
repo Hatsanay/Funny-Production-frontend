@@ -121,7 +121,7 @@ import Swal from "sweetalert2";
 import { computed, onMounted, ref, watch } from "vue";
 
 export default {
-  name: "CreateQueueGraphicComponents",
+  name: "CreateQueueAnimationComponents",
   props: {
     userId: { type: String, required: true },
     latestQueuePeriod: { type: Number, default: 1 },
@@ -291,7 +291,7 @@ export default {
         if (response.status === 201) {
           Swal.fire({
             title: "สร้างคิวสำเร็จ",
-            text: "สร้างคิวงาน Graphic เรียบร้อย!",
+            text: "สร้างคิวงาน Animation เรียบร้อย!",
             icon: "success",
           }).then(() => {
             window.location.reload();

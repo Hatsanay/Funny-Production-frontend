@@ -121,7 +121,7 @@ import axios from "axios";
 import { computed, onMounted, ref, watch } from "vue";
 
 export default {
-  name: "HistoryQueueGraphicComponents",
+  name: "HistoryQueueAnimationComponents",
   setup() {
     const searchQuery = ref("");
     const rowsPerPage = ref(10);

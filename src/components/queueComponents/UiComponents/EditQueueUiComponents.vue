@@ -365,7 +365,7 @@ export default {
           }
           Swal.fire({
             title: "แก้ไขคิวสำเร็จ",
-            text: "แก้ไขคิวงาน Graphic เรียบร้อย!",
+            text: "แก้ไขคิวงาน UI เรียบร้อย!",
             icon: "success",
           }).then(() => {
             emit("queueUpdated");

@@ -143,7 +143,7 @@ export default {
           if (updateResponse.status === 200) {
             Swal.fire({
               title: "เปลี่ยนสถานะคิวสำเร็จ",
-              text: "คิวงาน Graphic ถูกตั้งเป็นเสร็จสิ้นเรียบร้อย!",
+              text: "คิวงาน UI ถูกตั้งเป็นเสร็จสิ้นเรียบร้อย!",
               icon: "success",
             }).then(() => {
               emit("queueUpdated");
