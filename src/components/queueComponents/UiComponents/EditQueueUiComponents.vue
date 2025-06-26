@@ -114,6 +114,9 @@
     </CCol>
 
     <CCol md="12" class="d-flex justify-content-end mt-3">
+      <CButton color="danger" @click="cancelQueueUI()" class="me-3 text-white"
+        >ยกเลิกคิว</CButton
+      >
       <CButton color="secondary" @click="closeModal" class="me-3">ยกเลิก</CButton>
       <CButton type="submit" class="modern-button" :disabled="isLoading">
         {{ isLoading ? "กำลังบันทึก..." : "บันทึก" }}
@@ -391,6 +394,78 @@ export default {
       emit("closeModal");
     };
 
+    const cancelQueueUI = async () => {
+      if (isLoading.value) return;
+
+      Swal.fire({
+        title: "ยืนยันการยกเลิกคิว",
+        text: "คุณแน่ใจหรือไม่ที่จะยกเลิกคิวนี้? การดำเนินการนี้จะมีผลต่อคิวถัดไป",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc3545",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          isLoading.value = true;
+          try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+              addToast("ข้อผิดพลาด", "กรุณาเข้าสู่ระบบก่อนยกเลิก");
+              return;
+            }
+
+            const selectedClient = clientOptions.value.find(
+              (client) => client.clientID === form.value.clientId
+            );
+            const discordName = selectedClient ? selectedClient.discordName : "";
+
+            const response = await axios.put(
+              `/api/auth/cancelQueueUI/${props.queueId}`,
+              {
+                user_id: userId.value,
+                client_id: form.value.clientId,
+                discordName,
+                per_name: form.value.perName,
+                progress_status: "cancel",
+                period: period.value,
+                affectOthers: affectOthers.value,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (response.status === 200) {
+              Swal.fire({
+                title: "ยกเลิกคิวสำเร็จ",
+                text: "คิวงานถูกยกเลิกเรียบร้อย!",
+                icon: "success",
+              }).then(() => {
+                emit("queueUpdated");
+                closeModal();
+                window.location.reload();
+              });
+            }
+          } catch (error) {
+            const errorMessage =
+              error.response?.data?.error ||
+              error.response?.data?.message ||
+              error.message ||
+              "ไม่สามารถยกเลิกคิวได้";
+            addToast("ข้อผิดพลาด", errorMessage);
+            console.error("Error in cancelQueueUI:", error.response?.data || error);
+          } finally {
+            isLoading.value = false;
+          }
+        }
+      });
+    };
+
     onMounted(async () => {
       await fetchLatestQueuePeriod();
       loadClientOptions();
@@ -414,6 +489,7 @@ export default {
       isClientInOrder,
       latestQueuePeriod,
       affectOthers,
+      cancelQueueUI,
     };
   },
 };

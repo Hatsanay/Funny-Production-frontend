@@ -144,6 +144,8 @@
                           <i class="fa-solid fa-circle-check"></i> เสร็จสิ้น
                         </CButton>
                       </td>
+
+
                     </tr>
                   </tbody>
                 </table>
@@ -586,6 +588,11 @@
       </CModalBody>
     </CModal>
 
+
+
+
+    
+
     <CModal
       alignment="center"
       :visible="visibleHistoryGraphicModal"
@@ -856,10 +863,13 @@ export default {
       visibleDeleteGraphicModal.value = true;
     };
 
+
     const closeDeleteGraphicModal = () => {
       selectedQueueId.value = null;
       visibleDeleteGraphicModal.value = false;
     };
+
+
 
     const showModalHistoryGraphic = () => {
       visibleHistoryGraphicModal.value = true;
@@ -1128,6 +1138,7 @@ export default {
       closeEditGraphicModal,
       showModalDeleteGraphic,
       closeDeleteGraphicModal,
+
       showModalHistoryGraphic,
       closeHistoryGraphicModal,
       showModalCreateUI,

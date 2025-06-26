@@ -137,6 +137,7 @@ export default {
       waiting: "รอคิว",
       in_progress: "กำลังดำเนินงาน",
       completed: "เสร็จสิ้น",
+      cancel: "ยกเลิก",
     };
 
     const getQueueNumber = (index) => {

@@ -114,6 +114,9 @@
     </CCol>
 
     <CCol md="12" class="d-flex justify-content-end mt-3">
+      <CButton color="danger" @click="cancelQueueGraphic()" class="me-3 text-white"
+        >ยกเลิกคิว</CButton
+      >
       <CButton color="secondary" @click="closeModal" class="me-3">ยกเลิก</CButton>
       <CButton type="submit" class="modern-button" :disabled="isLoading">
         {{ isLoading ? "กำลังบันทึก..." : "บันทึก" }}
@@ -141,7 +144,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { computed, onMounted, ref, watch } from "vue";
-
 export default {
   name: "EditQueueGraphicComponents",
   props: {
@@ -200,7 +202,7 @@ export default {
             progressStatus: queue.progress_status,
           };
           period.value = queue.period || 0;
-          originalPeriod.value = queue.period || 0; 
+          originalPeriod.value = queue.period || 0;
         }
       } catch (error) {
         addToast("ข้อผิดพลาด", "ไม่สามารถโหลดข้อมูลคิวได้");
@@ -348,14 +350,16 @@ export default {
               const nextQueues = nextQueuesResponse.data.data;
               if (nextQueues.length > 0) {
                 for (const queue of nextQueues) {
-                  if (queue && queue._id) { 
-                    await axios.put(
-                      `/api/auth/updateQueueGraphic/${queue._id}`,
-                      {
-                        period: Math.max(0, queue.period + periodDifference),
-                      },
-                      { headers: { Authorization: `Bearer ${token}` } }
-                    ).catch(err => console.error("Error updating next queue:", err));
+                  if (queue && queue._id) {
+                    await axios
+                      .put(
+                        `/api/auth/updateQueueGraphic/${queue._id}`,
+                        {
+                          period: Math.max(0, queue.period + periodDifference),
+                        },
+                        { headers: { Authorization: `Bearer ${token}` } }
+                      )
+                      .catch((err) => console.error("Error updating next queue:", err));
                   } else {
                     console.warn("Invalid queue data:", queue);
                   }
@@ -391,6 +395,79 @@ export default {
       emit("closeModal");
     };
 
+    const cancelQueueGraphic = async () => {
+      if (isLoading.value) return;
+
+      Swal.fire({
+        title: "ยืนยันการยกเลิกคิว",
+        text: "คุณแน่ใจหรือไม่ที่จะยกเลิกคิวนี้? การดำเนินการนี้จะมีผลต่อคิวถัดไป",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc3545",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          isLoading.value = true;
+          try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+              addToast("ข้อผิดพลาด", "กรุณาเข้าสู่ระบบก่อนยกเลิก");
+              return;
+            }
+
+            const selectedClient = clientOptions.value.find(
+              (client) => client.clientID === form.value.clientId
+            );
+            const discordName = selectedClient ? selectedClient.discordName : "";
+
+            const response = await axios.put(
+              `/api/auth/cancelQueueGraphic/${props.queueId}`,
+              {
+                user_id: userId.value,
+                client_id: form.value.clientId,
+                discordName,
+                per_name: form.value.perName,
+                progress_status: "cancel",
+                period: period.value,
+                affectOthers: affectOthers.value,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (response.status === 200) {
+              Swal.fire({
+                title: "ยกเลิกคิวสำเร็จ",
+                text: "คิวงานถูกยกเลิกเรียบร้อย!",
+                icon: "success",
+              }).then(() => {
+                emit("queueUpdated");
+                closeModal();
+                window.location.reload();
+              });
+            }
+          } catch (error) {
+            const errorMessage =
+              error.response?.data?.error ||
+              error.response?.data?.message ||
+              error.message ||
+              "ไม่สามารถยกเลิกคิวได้";
+            addToast("ข้อผิดพลาด", errorMessage);
+            console.error("Error in cancelQueueGraphic:", error.response?.data || error);
+          } finally {
+            isLoading.value = false;
+          }
+        }
+      });
+    };
+
+    
     onMounted(async () => {
       await fetchLatestQueuePeriod();
       loadClientOptions();
@@ -414,6 +491,7 @@ export default {
       isClientInOrder,
       latestQueuePeriod,
       affectOthers,
+      cancelQueueGraphic,
     };
   },
 };
@@ -450,5 +528,4 @@ export default {
   color: #0d6efd;
   font-weight: 600;
 }
-
 </style>
