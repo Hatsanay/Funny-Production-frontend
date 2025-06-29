@@ -89,11 +89,13 @@
                   <thead>
                     <tr>
                       <th>ลำดับคิว</th>
+                      <th>วันที่สร้าง</th>
                       <th>รายละเอียดงาน</th>
                       <th>ID Discord</th>
                       <th>ชื่อ Discord</th>
                       <th>สถานะ</th>
                       <th>ระยะเวลา (วัน)</th>
+                      <!-- <th>วันที่แก้ไขล่าสุด</th> -->
                       <th></th>
                       <th></th>
                     </tr>
@@ -113,6 +115,9 @@
                           &nbsp;&nbsp;&nbsp;{{ getQueueNumber(index) }}
                         </span>
                       </td>
+                      <td>
+                        {{ formatDate(queue.createdAt) }}
+                      </td>
                       <td>{{ queue.per_name || "N/A" }}</td>
                       <td>{{ queue.client_id || "N/A" }}</td>
                       <td>{{ queue.discordName || "N/A" }}</td>
@@ -125,6 +130,10 @@
                         <span v-if="queue.period === 0" class="text-danger">สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span>
                         <span v-else>ประมาณ {{ queue.period || 0 }} วัน</span>
                       </td>
+
+                      <!-- <td>
+                        {{ formatDate(queue.updatedAt) }}
+                      </td> -->
                       <td>
                         <CButton
                           color="warning"
@@ -144,8 +153,6 @@
                           <i class="fa-solid fa-circle-check"></i> เสร็จสิ้น
                         </CButton>
                       </td>
-
-
                     </tr>
                   </tbody>
                 </table>
@@ -254,11 +261,13 @@
                   <thead>
                     <tr>
                       <th>ลำดับคิว</th>
+                      <th>วันที่สร้าง</th>
                       <th>รายละเอียดงาน</th>
                       <th>ID Discord</th>
                       <th>ชื่อ Discord</th>
                       <th>สถานะ</th>
                       <th>ระยะเวลา (วัน)</th>
+                      <!-- <th>วันที่แก้ไขล่าสุด</th> -->
                       <th></th>
                       <th></th>
                     </tr>
@@ -278,6 +287,9 @@
                           &nbsp;&nbsp;&nbsp;{{ getQueueNumberUI(index) }}
                         </span>
                       </td>
+                      <td>
+                        {{ formatDate(queue.createdAt) }}
+                      </td>
                       <td>{{ queue.per_name || "N/A" }}</td>
                       <td>{{ queue.client_id || "N/A" }}</td>
                       <td>{{ queue.discordName || "N/A" }}</td>
@@ -290,6 +302,10 @@
                         <span v-if="queue.period === 0" class="text-danger">สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span>
                         <span v-else>ประมาณ {{ queue.period || 0 }} วัน</span>
                       </td>
+
+                      <!-- <td>
+                        {{ formatDate(queue.updatedAt) }}
+                      </td> -->
                       <td>
                         <CButton
                           color="warning"
@@ -417,11 +433,13 @@
                   <thead>
                     <tr>
                       <th>ลำดับคิว</th>
+                      <th>วันที่สร้าง</th>
                       <th>รายละเอียดงาน</th>
                       <th>ID Discord</th>
                       <th>ชื่อ Discord</th>
                       <th>สถานะ</th>
                       <th>ระยะเวลา (วัน)</th>
+                      <!-- <th>วันที่แก้ไขล่าสุด</th> -->
                       <th></th>
                       <th></th>
                     </tr>
@@ -441,6 +459,9 @@
                           &nbsp;&nbsp;&nbsp;{{ getQueueNumberAnimation(index) }}
                         </span>
                       </td>
+                      <td>
+                        {{ formatDate(queue.createdAt) }}
+                      </td>
                       <td>{{ queue.per_name || "N/A" }}</td>
                       <td>{{ queue.client_id || "N/A" }}</td>
                       <td>{{ queue.discordName || "N/A" }}</td>
@@ -453,6 +474,10 @@
                         <span v-if="queue.period === 0" class="text-danger">สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span>
                         <span v-else>ประมาณ {{ queue.period || 0 }} วัน</span>
                       </td>
+
+                      <!-- <td>
+                        {{ formatDate(queue.updatedAt) }}
+                      </td> -->
                       <td>
                         <CButton
                           color="warning"
@@ -587,11 +612,6 @@
         />
       </CModalBody>
     </CModal>
-
-
-
-
-    
 
     <CModal
       alignment="center"
@@ -773,7 +793,6 @@ import CreateQueueUIComponents from "./UiComponents/CreateQueueUIComponents.vue"
 import DeleteQueueUIComponents from "./UiComponents/DeleteQueueUiComponents.vue";
 import EditQueueUIComponents from "./UiComponents/EditQueueUiComponents.vue";
 import HistoryQueueUIComponents from "./UiComponents/HistoryQueueUiComponents.vue";
-
 export default {
   name: "QueueComponents",
   components: {
@@ -863,13 +882,10 @@ export default {
       visibleDeleteGraphicModal.value = true;
     };
 
-
     const closeDeleteGraphicModal = () => {
       selectedQueueId.value = null;
       visibleDeleteGraphicModal.value = false;
     };
-
-
 
     const showModalHistoryGraphic = () => {
       visibleHistoryGraphicModal.value = true;
@@ -971,7 +987,14 @@ export default {
     const formatDate = (dateStr) => {
       if (!dateStr) return "N/A";
       const date = new Date(dateStr);
-      return isNaN(date.getTime()) ? "N/A" : date.toLocaleDateString();
+      return isNaN(date.getTime()) ? "N/A" : date.toLocaleString('th-TH', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).replace(/\//g, '/');
     };
 
     const fetchQueue = async () => {
@@ -1138,7 +1161,6 @@ export default {
       closeEditGraphicModal,
       showModalDeleteGraphic,
       closeDeleteGraphicModal,
-
       showModalHistoryGraphic,
       closeHistoryGraphicModal,
       showModalCreateUI,

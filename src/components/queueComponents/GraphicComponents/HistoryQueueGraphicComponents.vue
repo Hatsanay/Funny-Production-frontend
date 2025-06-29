@@ -2,13 +2,9 @@
   <div>
     <CRow style="margin-bottom: 10px">
       <CCol :md="7"></CCol>
-      <CCol :md="5" style="margin-bottom: 10px; padding-left: 5px;">
+      <CCol :md="5" style="margin-bottom: 10px; padding-left: 5px">
         <CInputGroup>
-          <CFormInput
-            placeholder="ค้นหา..."
-            v-model="searchQuery"
-            @input="fetchQueue"
-          />
+          <CFormInput placeholder="ค้นหา..." v-model="searchQuery" @input="fetchQueue" />
           <CInputGroupText>
             <CIcon name="cil-magnifying-glass" />
           </CInputGroupText>
@@ -25,6 +21,7 @@
               <thead>
                 <tr>
                   <th>ลำดับ</th>
+                  <th>วันที่สร้าง</th>
                   <th>รายละเอียดงาน</th>
                   <th>ID Discord</th>
                   <th>ชื่อ Discord</th>
@@ -37,25 +34,29 @@
                     <span
                       v-if="queue.period === 0"
                       class="text-danger"
-                      style="display: inline-flex; align-items: center;"
+                      style="display: inline-flex; align-items: center"
                     >
                       {{ getQueueNumber(index) }}
                     </span>
                     <span
                       v-else-if="queue.period === 1"
                       class="text-warning"
-                      style="display: inline-flex; align-items: center;"
+                      style="display: inline-flex; align-items: center"
                     >
                       {{ getQueueNumber(index) }}
                     </span>
-                    <span v-else style="padding-left: 20px;">
+                    <span v-else style="padding-left: 20px">
                       {{ getQueueNumber(index) }}
                     </span>
+                  </td>
+                  <td>
+                    {{ formatDate(queue.createdAt) }}
                   </td>
                   <td>{{ queue.per_name || "N/A" }}</td>
                   <td>{{ queue.client_id || "N/A" }}</td>
                   <td>{{ queue.discordName || "N/A" }}</td>
                   <td>{{ statusMap[queue.progress_status] || "N/A" }}</td>
+
                 </tr>
               </tbody>
             </table>
@@ -184,6 +185,23 @@ export default {
       fetchQueue();
     };
 
+    const formatDate = (dateStr) => {
+      if (!dateStr) return "N/A";
+      const date = new Date(dateStr);
+      return isNaN(date.getTime())
+        ? "N/A"
+        : date
+            .toLocaleString("th-TH", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(/\//g, "/");
+    };
+
     onMounted(() => {
       fetchQueue();
     });
@@ -203,6 +221,7 @@ export default {
       getQueueNumber,
       errorMessage,
       statusMap,
+      formatDate,
     };
   },
 };

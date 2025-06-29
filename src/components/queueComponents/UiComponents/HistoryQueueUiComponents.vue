@@ -25,6 +25,7 @@
               <thead>
                 <tr>
                   <th>ลำดับ</th>
+                  <th>วันที่สร้าง</th>
                   <th>รายละเอียดงาน</th>
                   <th>ID Discord</th>
                   <th>ชื่อ Discord</th>
@@ -51,6 +52,9 @@
                     <span v-else style="padding-left: 20px;">
                       {{ getQueueNumber(index) }}
                     </span>
+                  </td>
+                  <td>
+                    {{ formatDate(queue.createdAt) }}
                   </td>
                   <td>{{ queue.per_name || "N/A" }}</td>
                   <td>{{ queue.client_id || "N/A" }}</td>
@@ -184,6 +188,23 @@ export default {
       fetchQueue();
     };
 
+    const formatDate = (dateStr) => {
+      if (!dateStr) return "N/A";
+      const date = new Date(dateStr);
+      return isNaN(date.getTime())
+        ? "N/A"
+        : date
+            .toLocaleString("th-TH", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(/\//g, "/");
+    };
+
     onMounted(() => {
       fetchQueue();
     });
@@ -203,6 +224,7 @@ export default {
       getQueueNumber,
       errorMessage,
       statusMap,
+      formatDate,
     };
   },
 };
