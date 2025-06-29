@@ -15,7 +15,7 @@ import axios from 'axios'
 
 
 axios.defaults.baseURL = 'http://localhost:3030'  //local
-// axios.defaults.baseURL = 'https://backendManage.dktimeh.com'  //hosting
+// axios.defaults.baseURL = 'http://funnyapi.dktimeh.com'  //hosting
 
 const token = localStorage.getItem('token')
 if (token) {

@@ -69,6 +69,7 @@ export default {
     async loginWithDiscord() {
       this.isLoading = true;
       const apiUrl = process.env.VUE_APP_API_URL || "http://localhost:3030";
+      // const apiUrl = process.env.VUE_APP_API_URL || "http://funnyapi.dktimeh.com";
       try {
         const discordAuthUrl = `${apiUrl}/api/auth/discord`;
         window.location.href = discordAuthUrl; // ยังคงใช้ redirect สำหรับ OAuth
