@@ -111,11 +111,12 @@ export default {
       try {
         const confirmResult = await Swal.fire({
           title: "ยืนยันการเปลี่ยนสถานะคิว",
-          text: "คุณแน่ใจหรือไม่ว่าต้องการตั้งคิวนี้เป็นเสร็จสิ้น? การดำเนินการนี้ไม่สามารถย้อนกลับได้",
+          text:
+            "คุณแน่ใจหรือไม่ว่าต้องการตั้งคิวนี้เป็นเสร็จสิ้น? การดำเนินการนี้ไม่สามารถย้อนกลับได้",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#d33",
-          cancelButtonColor: "#3085d6",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
           confirmButtonText: "ยืนยัน",
           cancelButtonText: "ยกเลิก",
         });

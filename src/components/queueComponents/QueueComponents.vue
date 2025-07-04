@@ -123,11 +123,17 @@
                       <td>{{ queue.discordName || "N/A" }}</td>
                       <td>
                         <span v-if="queue.progress_status === 'waiting'">รอคิว</span>
-                        <span v-else-if="queue.progress_status === 'in_progress'">กำลังดำเนินงาน</span>
-                        <span v-else-if="queue.progress_status === 'completed'">เสร็จสิ้น</span>
+                        <span v-else-if="queue.progress_status === 'in_progress'"
+                          >กำลังดำเนินงาน</span
+                        >
+                        <span v-else-if="queue.progress_status === 'completed'"
+                          >เสร็จสิ้น</span
+                        >
                       </td>
                       <td>
-                        <span v-if="queue.period === 0" class="text-danger">สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span>
+                        <span v-if="queue.period === 0" class="text-danger"
+                          >สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span
+                        >
                         <span v-else>ประมาณ {{ queue.period || 0 }} วัน</span>
                       </td>
 
@@ -295,11 +301,17 @@
                       <td>{{ queue.discordName || "N/A" }}</td>
                       <td>
                         <span v-if="queue.progress_status === 'waiting'">รอคิว</span>
-                        <span v-else-if="queue.progress_status === 'in_progress'">กำลังดำเนิน</span>
-                        <span v-else-if="queue.progress_status === 'completed'">เสร็จสิ้น</span>
+                        <span v-else-if="queue.progress_status === 'in_progress'"
+                          >กำลังดำเนิน</span
+                        >
+                        <span v-else-if="queue.progress_status === 'completed'"
+                          >เสร็จสิ้น</span
+                        >
                       </td>
                       <td>
-                        <span v-if="queue.period === 0" class="text-danger">สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span>
+                        <span v-if="queue.period === 0" class="text-danger"
+                          >สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span
+                        >
                         <span v-else>ประมาณ {{ queue.period || 0 }} วัน</span>
                       </td>
 
@@ -467,11 +479,17 @@
                       <td>{{ queue.discordName || "N/A" }}</td>
                       <td>
                         <span v-if="queue.progress_status === 'waiting'">รอคิว</span>
-                        <span v-else-if="queue.progress_status === 'in_progress'">กำลังดำเนินงาน</span>
-                        <span v-else-if="queue.progress_status === 'completed'">เสร็จสิ้น</span>
+                        <span v-else-if="queue.progress_status === 'in_progress'"
+                          >กำลังดำเนินงาน</span
+                        >
+                        <span v-else-if="queue.progress_status === 'completed'"
+                          >เสร็จสิ้น</span
+                        >
                       </td>
                       <td>
-                        <span v-if="queue.period === 0" class="text-danger">สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span>
+                        <span v-if="queue.period === 0" class="text-danger"
+                          >สิ้นสุดการส่งงาน (กรุณาเพิ่มระยะเวลา)</span
+                        >
                         <span v-else>ประมาณ {{ queue.period || 0 }} วัน</span>
                       </td>
 
@@ -621,7 +639,9 @@
       size="lg"
     >
       <CModalHeader>
-        <CModalTitle id="VerticallyCenteredExampleHistory">ประวัติคิว Graphic</CModalTitle>
+        <CModalTitle id="VerticallyCenteredExampleHistory"
+          >ประวัติคิว Graphic</CModalTitle
+        >
       </CModalHeader>
       <CModalBody>
         <HistoryQueueGraphicComponents @closeModal="closeHistoryGraphicModal" />
@@ -710,7 +730,9 @@
       size="lg"
     >
       <CModalHeader>
-        <CModalTitle id="VerticallyCenteredExampleAnimation">สร้างคิวงาน Animation</CModalTitle>
+        <CModalTitle id="VerticallyCenteredExampleAnimation"
+          >สร้างคิวงาน Animation</CModalTitle
+        >
       </CModalHeader>
       <CModalBody>
         <CreateQueueAnimationComponents
@@ -729,7 +751,9 @@
       size="lg"
     >
       <CModalHeader>
-        <CModalTitle id="VerticallyCenteredExampleEditAnimation">แก้ไขคิวงาน Animation</CModalTitle>
+        <CModalTitle id="VerticallyCenteredExampleEditAnimation"
+          >แก้ไขคิวงาน Animation</CModalTitle
+        >
       </CModalHeader>
       <CModalBody>
         <EditQueueAnimationComponents
@@ -749,7 +773,9 @@
       size="lg"
     >
       <CModalHeader>
-        <CModalTitle id="VerticallyCenteredExampleDeleteAnimation">ปิดคิวงาน Animation</CModalTitle>
+        <CModalTitle id="VerticallyCenteredExampleDeleteAnimation"
+          >ปิดคิวงาน Animation</CModalTitle
+        >
       </CModalHeader>
       <CModalBody>
         <DeleteQueueAnimationComponents
@@ -769,7 +795,9 @@
       size="lg"
     >
       <CModalHeader>
-        <CModalTitle id="VerticallyCenteredExampleHistoryAnimation">ประวัติคิว Animation</CModalTitle>
+        <CModalTitle id="VerticallyCenteredExampleHistoryAnimation"
+          >ประวัติคิว Animation</CModalTitle
+        >
       </CModalHeader>
       <CModalBody>
         <HistoryQueueAnimationComponents @closeModal="closeHistoryAnimationModal" />
@@ -785,11 +813,11 @@ import CreateQueueAnimationComponents from "./AnimationComponents/CreateQueueAni
 import DeleteQueueAnimationComponents from "./AnimationComponents/DeleteQueueAnimationComponents.vue";
 import EditQueueAnimationComponents from "./AnimationComponents/EditQueueAnimationComponents.vue";
 import HistoryQueueAnimationComponents from "./AnimationComponents/HistoryQueueAnimationComponents.vue";
+import CreateQueueUIComponents from "./UiComponents/CreateQueueUiComponents.vue";
 import CreateQueueGraphicComponents from "./GraphicComponents/CreateQueueGraphicComponents.vue";
 import DeleteQueueGraphicComponents from "./GraphicComponents/DeleteQueueGraphicComponents.vue";
 import EditQueueGraphicComponents from "./GraphicComponents/EditQueueGraphicComponents.vue";
 import HistoryQueueGraphicComponents from "./GraphicComponents/HistoryQueueGraphicComponents.vue";
-import CreateQueueUIComponents from "./UiComponents/CreateQueueUIComponents.vue";
 import DeleteQueueUIComponents from "./UiComponents/DeleteQueueUiComponents.vue";
 import EditQueueUIComponents from "./UiComponents/EditQueueUiComponents.vue";
 import HistoryQueueUIComponents from "./UiComponents/HistoryQueueUiComponents.vue";
@@ -828,7 +856,9 @@ export default {
     const totalAnimation = ref(0);
     const totalPages = computed(() => Math.ceil(total.value / rowsPerPage.value));
     const totalPagesUI = computed(() => Math.ceil(totalUI.value / rowsPerPageUI.value));
-    const totalPagesAnimation = computed(() => Math.ceil(totalAnimation.value / rowsPerPageAnimation.value));
+    const totalPagesAnimation = computed(() =>
+      Math.ceil(totalAnimation.value / rowsPerPageAnimation.value)
+    );
     const visibleCreateGraphicModal = ref(false);
     const visibleEditGraphicModal = ref(false);
     const visibleDeleteGraphicModal = ref(false);
@@ -987,20 +1017,34 @@ export default {
     const formatDate = (dateStr) => {
       if (!dateStr) return "N/A";
       const date = new Date(dateStr);
-      return isNaN(date.getTime()) ? "N/A" : date.toLocaleString('th-TH', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      }).replace(/\//g, '/');
+      return isNaN(date.getTime())
+        ? "N/A"
+        : date
+            .toLocaleString("th-TH", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(/\//g, "/");
     };
 
     const fetchQueue = async () => {
       const offset = (currentPage.value - 1) * rowsPerPage.value;
       try {
         const token = localStorage.getItem("token");
+        console.log(
+          "Fetching queue from:",
+          "/api/auth/getAllQueueGraphic",
+          "with params:",
+          {
+            limit: rowsPerPage.value,
+            offset: offset,
+            search: searchQuery.value,
+          }
+        );
         const response = await axios.get("/api/auth/getAllQueueGraphic", {
           params: {
             limit: rowsPerPage.value,
@@ -1019,7 +1063,12 @@ export default {
           total.value = 0;
         }
       } catch (error) {
-        console.error("Error fetching queue:", error);
+        console.error(
+          "Error fetching queue:",
+          error.message,
+          error.response?.status,
+          error.response?.data
+        );
         license.value = [];
         total.value = 0;
       }
@@ -1034,9 +1083,6 @@ export default {
             limit: rowsPerPageUI.value,
             offset: offset,
             search: searchQueryUI.value,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
           },
         });
         if (response.data.success) {
@@ -1111,7 +1157,10 @@ export default {
     // Watch การเปลี่ยนแปลงของตัวแปรเพื่อเรียก fetch
     watch([searchQuery, rowsPerPage, currentPage], fetchQueue);
     watch([searchQueryUI, rowsPerPageUI, currentPageUI], fetchQueueUI);
-    watch([searchQueryAnimation, rowsPerPageAnimation, currentPageAnimation], fetchQueueAnimation);
+    watch(
+      [searchQueryAnimation, rowsPerPageAnimation, currentPageAnimation],
+      fetchQueueAnimation
+    );
 
     return {
       activeTab,

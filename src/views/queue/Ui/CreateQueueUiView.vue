@@ -1,6 +1,6 @@
 <script setup>
 // import CreateQueueUiComponents from "../../../components/queueComponents/UiComponents/CreateQueueUiComponents.vue";
-import CreateQueueUiComponents from "../../../components/QueueComponents/UiComponents/CreateQueueUiComponents.vue";
+import CreateQueueUiComponents from "../../../../src/components/queueComponents/UiComponents/CreateQueueUiComponents";
 
 </script>
 

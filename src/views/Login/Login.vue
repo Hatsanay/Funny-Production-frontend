@@ -9,7 +9,6 @@
                 <div class="text-center mb-4">
                   <div>
                     <img src="../../assets/brand/logoProduction.png" width="100px" />
-
                   </div>
                   <h1 class="display-4" style="font-weight: 400">Login</h1>
                   <p class="text-muted">Sign in with Discord (Admin Role Required)</p>
@@ -68,8 +67,8 @@ export default {
     },
     async loginWithDiscord() {
       this.isLoading = true;
-      const apiUrl = process.env.VUE_APP_API_URL || "http://localhost:3030";
-      // const apiUrl = process.env.VUE_APP_API_URL || "http://funnyapi.dktimeh.com";
+      // const apiUrl = process.env.VUE_APP_API_URL || "http://localhost:3030";
+      const apiUrl = process.env.VUE_APP_API_URL || "https://funny-api.dktimeh.com";
       try {
         const discordAuthUrl = `${apiUrl}/api/auth/discord`;
         window.location.href = discordAuthUrl; // ยังคงใช้ redirect สำหรับ OAuth
@@ -84,7 +83,7 @@ export default {
     const token = urlParams.get("token");
     const error = urlParams.get("error");
 
-    console.log("Route Enter - Params:", { token, error }); // ตรวจสอบพารามิเตอร์
+    console.log("Route Enter - Params:", { token, error });
 
     if (token) {
       localStorage.setItem("token", token);

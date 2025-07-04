@@ -14,8 +14,9 @@ import CoreuiVue from '@coreui/vue'
 import axios from 'axios'
 
 
-axios.defaults.baseURL = 'http://localhost:3030'  //local
-// axios.defaults.baseURL = 'http://funnyapi.dktimeh.com'  //hosting
+// axios.defaults.baseURL = 'http://localhost:3030'  //local
+axios.defaults.baseURL = 'https://funny-api.dktimeh.com'  //hosting
+
 
 const token = localStorage.getItem('token')
 if (token) {
